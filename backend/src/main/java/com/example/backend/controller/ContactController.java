@@ -28,11 +28,9 @@ public class ContactController {
         return contactRepository.findAll();
     }
 
-    // ============ 核心修改：保存逻辑 ============
+  
     @PostMapping("/save")
     public Contact save(@RequestBody Contact contact) {
-        // 关键动作：如果有联系方式，先把它们的“爸爸”设为当前联系人
-        // 这样存进数据库时，contact_id 就有值了，不会报 NOT NULL 错误
         if (contact.getDetails() != null) {
             for (ContactDetail detail : contact.getDetails()) {
                 detail.setContact(contact);
