@@ -3,7 +3,7 @@
     <div class="bg-animation"></div>
     
     <div class="app-container">
-      <!-- 头部 -->
+     
       <div class="header">
         <div class="logo-area">
           <div class="logo-box"><el-icon><Notebook /></el-icon></div>
@@ -19,7 +19,7 @@
         </div>
       </div>
 
-      <!-- 工具栏 -->
+    
       <div class="glass-card toolbar">
         <el-row :gutter="20" align="middle">
           <el-col :span="14" class="left-panel">
@@ -41,7 +41,7 @@
         </el-row>
       </div>
 
-      <!-- 表格 -->
+ 
       <div class="glass-card table-wrapper">
         <el-table :data="filteredTableData" style="width: 100%" v-loading="loading" :default-sort="{ prop: 'createdAt', order: 'descending' }" class="transparent-table">
           <el-table-column label="收藏" width="80" align="center">
@@ -76,7 +76,7 @@
       </div>
     </div>
 
-    <!-- 弹窗：修复了下拉框和按钮白色问题 -->
+    
     <el-dialog v-model="dialogVisible" title="New Member" width="480px" class="cyber-dialog">
       <el-form :model="form" label-width="60px">
         <el-form-item label="姓名">
@@ -89,7 +89,7 @@
         <div class="detail-box">
           <div class="sub-header">联系方式列表</div>
           <div v-for="(item, index) in form.details" :key="index" class="row-item">
-              <!-- 重点修复：cyber-select 样式 -->
+             
               <el-select 
                 v-model="item.type" 
                 class="cyber-select" 
@@ -104,7 +104,7 @@
               <el-input v-model="item.content" class="cyber-input flex-1" />
               <el-icon class="remove-icon" @click="removeDetail(index)"><CircleCloseFilled /></el-icon>
           </div>
-          <!-- 重点修复：按钮样式 -->
+     
           <div class="add-btn-wrapper" @click="addDetail">
             <el-icon><Plus /></el-icon> 添加一行
           </div>
@@ -148,7 +148,7 @@ const filteredTableData = computed(() => {
 })
 const favCount = computed(() => tableData.value.filter(i => i.isFavorite).length)
 
-// 逻辑不变
+
 const fetchList = async () => { loading.value = true; try { const res = await axios.get(`${API_URL}/list`); tableData.value = res.data } catch (error) { ElMessage.error('服务未连接') } finally { loading.value = false } }
 const toggleFavorite = async (row) => { try { await axios.post(`${API_URL}/favorite/${row.id}`); row.isFavorite = !row.isFavorite } catch (error) {} }
 const handleExport = () => { window.location.href = `${API_URL}/export` }
@@ -163,7 +163,7 @@ onMounted(() => { fetchList() })
 </script>
 
 <style>
-/* CSS 全局覆盖 */
+
 :root {
   --el-color-primary: #00d2ff;
   --el-bg-color: #1a1a1a;
@@ -171,22 +171,21 @@ onMounted(() => { fetchList() })
   --el-text-color-primary: #e0e6ed;
   --el-text-color-regular: #a0a0a0;
   --el-border-color: #333;
-  --el-fill-color-blank: #141414; /* 核心：让所有输入框背景变黑 */
+  --el-fill-color-blank: #141414; 
   --el-mask-color: rgba(0, 0, 0, 0.8);
 }
 
-/* 1. 修复下拉菜单 (Select) 的框体白色问题 */
-/* 强制覆盖 Select 内部的 wrapper */
+
 .cyber-select .el-select__wrapper,
 .cyber-select .el-input__wrapper {
-  background-color: #141414 !important; /* 强制纯黑 */
+  background-color: #141414 !important; 
   box-shadow: 0 0 0 1px #444 inset !important;
 }
 .cyber-select .el-select__wrapper:hover {
   box-shadow: 0 0 0 1px #00d2ff inset !important;
 }
 
-/* 2. 修复下拉菜单弹出的列表 */
+
 .dark-popper.el-popper {
   background: #1e222d !important;
   border: 1px solid #333 !important;
@@ -195,11 +194,9 @@ onMounted(() => { fetchList() })
 .dark-popper .el-select-dropdown__item.hover,
 .dark-popper .el-select-dropdown__item:hover { background-color: #2a2a2a; color: #00d2ff; }
 
-/* 3. 修复“添加一行”按钮白色问题 */
-/* 我不再使用 el-button，改用 div 模拟按钮，彻底避开 Element 样式干扰 */
 .add-btn-wrapper {
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.05); /* 透明黑 */
+  background-color: rgba(255, 255, 255, 0.05); 
   border: 1px dashed #444;
   color: #888;
   font-size: 13px;
@@ -218,7 +215,6 @@ onMounted(() => { fetchList() })
   color: #00d2ff;
 }
 
-/* 其他样式保持 */
 .el-input__wrapper { background-color: #141414 !important; box-shadow: 0 0 0 1px #333 inset !important; }
 .el-input__inner { color: #fff !important; }
 .cyber-dialog { background: #1e222d !important; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
