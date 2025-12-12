@@ -5,7 +5,7 @@ import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import lombok.Data;
 
 @Data
-@ColumnWidth(20) // 设置统一列宽，好看一点
+@ColumnWidth(20)
 public class ContactExportVO {
 
     @ExcelProperty("ID")
@@ -15,13 +15,12 @@ public class ContactExportVO {
     private String name;
 
     @ExcelProperty("地址")
-    @ColumnWidth(30) // 地址通常比较长，宽一点
+    @ColumnWidth(30) 
     private String address;
 
     @ExcelProperty("是否收藏")
-    private String isFavorite; // 导出成 "是/否" 比 true/false 好看
+    private String isFavorite; 
 
-    // === 下面是把原本的 List 拆解成具体的列 ===
 
     @ExcelProperty("手机")
     private String phone;
