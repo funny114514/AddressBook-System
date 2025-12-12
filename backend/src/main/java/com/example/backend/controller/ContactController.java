@@ -60,28 +60,17 @@ public class ContactController {
         response.setCharacterEncoding("utf-8");
         String fileName = URLEncoder.encode("通讯录完整导出", "UTF-8").replaceAll("\\+", "%20");
         response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + fileName + ".xlsx");
-
-        // 1. 查出数据
         List<Contact> dbList = contactRepository.findAll();
-
-        // 2. 准备导出列表
         List<ContactExportVO> exportList = new java.util.ArrayList<>();
-
-        // 3. 定义一个计数器，从 1 开始 (为了让Excel里显示 1, 2, 3...)
         long index = 1;
 
         for (Contact contact : dbList) {
             ContactExportVO vo = new ContactExportVO();
-
-            // ❌ 之前是 vo.setId(contact.getId()); --> 这是真实ID (1, 10)
-            // ✅ 现在改成 vo.setId(index++); --> 这是序号 (1, 2)，每循环一次加1
             vo.setId(index++);
 
             vo.setName(contact.getName());
             vo.setAddress(contact.getAddress());
             vo.setIsFavorite(Boolean.TRUE.equals(contact.getIsFavorite()) ? "★" : "");
-
-            // 处理联系方式拼接
             if (contact.getDetails() != null) {
                 StringBuilder phoneSb = new StringBuilder();
                 StringBuilder wechatSb = new StringBuilder();
